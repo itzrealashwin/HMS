@@ -1,0 +1,13 @@
+{
+    "totalAppointments" : 4000,
+    "day" : {
+        "Mon" : 45,
+        "Tue" : 50,
+        "wed" : 60,
+        "thu" : 60,
+        "Fri" : 55,
+        "Sat" : 55,
+        "Sun" : 50
+        
+    }
+}
