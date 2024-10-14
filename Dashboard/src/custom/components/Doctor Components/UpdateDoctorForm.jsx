@@ -13,6 +13,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { X } from "lucide-react";
 import useDoctorContext from "@/custom/pages/Hooks/useDoctorsContext";
+import { useNavigate } from "react-router-dom";
 
 function UpdateDoctorForm({ specificDoctor, DID }) {
   const { register, handleSubmit, setValue } = useForm();
@@ -20,10 +21,10 @@ function UpdateDoctorForm({ specificDoctor, DID }) {
   const [gender, setGender] = useState("Male");
   const [degrees, setDegrees] = useState([]);
   const [degreeInput, setDegreeInput] = useState("");
-console.log(specificDoctor);
+  console.log(specificDoctor);
 
   const { updateDoctor } = useDoctorContext();
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (specificDoctor) {
       setValue("name", specificDoctor.Name);
@@ -61,8 +62,17 @@ console.log(specificDoctor);
   };
 
   const onSubmit = (data) => {
-    updateDoctor({ ...data, specialist, gender, degrees }, DID);
+    const updatedData = {
+      ...data,
+      specialist, // Include selected specialist
+      gender,     // Include selected gender
+      degrees,    // Include entered degrees
+    };
+  
+    updateDoctor(updatedData, DID);
+    navigate(-1); // Redirect or navigate after updating
   };
+  
 
   return (
     <div className="flex justify-center">

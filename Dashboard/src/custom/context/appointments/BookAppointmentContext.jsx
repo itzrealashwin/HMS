@@ -17,7 +17,8 @@ async function bookAppointment(PID, AppData){
             toast({
                 title: "Success",
                 description : "Appointment Successfully Booked. We will notify you whenever your Appointment has been updated",
-                className : "bg-white"
+                className: "bg-green-100",
+
             })
     }).catch((err)=>{
         toast({

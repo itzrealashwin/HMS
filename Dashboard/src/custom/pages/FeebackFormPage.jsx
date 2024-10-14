@@ -114,7 +114,7 @@ function FeedbackFormPage() {
                     Name
                   </label>
                   <input
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow text-sm font-normal  appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="Name"
                     type="text"
                     name="Name"
@@ -128,7 +128,7 @@ function FeedbackFormPage() {
                     Email
                   </label>
                   <input
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow text-sm font-normal  appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="Email"
                     type="email"
                     name="Email"
@@ -143,7 +143,7 @@ function FeedbackFormPage() {
                   Disease Type
                 </label>
                 <select
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow text-sm font-normal  appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="DiseaseType"
                   name="DiseaseType"
                   value={formState.DiseaseType}
@@ -185,7 +185,7 @@ function FeedbackFormPage() {
                   Short Description
                 </label>
                 <textarea
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow text-sm font-normal  appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="ShortDescription"
                   name="ShortDescription"
                   value={formState.ShortDescription}

@@ -225,5 +225,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <RoutesContextProvider>
     <RouterProvider router={router} />
     <Toaster />
+    
   </RoutesContextProvider>
 );

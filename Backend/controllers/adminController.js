@@ -502,34 +502,35 @@ const deleteAppointment = asyncHandler(async (req, res) => {
 const updateDoctor = asyncHandler(async (req, res) => {
   const { did } = req.params;
   const { Name, Gender, Age, Mono, Email, Specialist, Degrees } = req.body;
+  console.log(did, req.body); // Log to ensure data is reaching
 
   try {
+    // Find the doctor by DID
     const doctor = await Doctor.findOne({ DID: did });
-
+    
     if (!doctor) {
       res.status(404);
       throw new Error("Doctor not found");
     }
 
-    // Update the doctor information, excluding DID
-    if (Name) doctor.Name = Name;
-    if (Gender) doctor.Gender = Gender;
-    if (Age) doctor.Age = Age;
-    if (Mono) doctor.Mono = Mono;
-    if (Email) doctor.Email = Email;
-    if (Specialist) doctor.Specialist = Specialist;
-    if (Degrees) doctor.Degrees = Degrees;
+    // Update the fields directly from req.body
+    doctor.Name = Name || doctor.Name;
+    doctor.Gender = Gender || doctor.Gender;
+    doctor.Age = Age || doctor.Age;
+    doctor.Mono = Mono || doctor.Mono;
+    doctor.Email = Email || doctor.Email;
+    doctor.Specialist = Specialist || doctor.Specialist;
+    doctor.Degrees = Degrees || doctor.Degrees;
 
+    // Save the updated doctor
     await doctor.save();
 
     res.json({ message: "Doctor updated successfully", doctor });
   } catch (error) {
-    res.status(500).json({
-      message: "Failed to update doctor",
-      error: error.message,
-    });
+    res.status(500).json({ message: "Failed to update doctor", error: error.message });
   }
 });
+
 
 // @desc    Delete a doctor
 // @route   DELETE /admin/deleteDoctor/:did

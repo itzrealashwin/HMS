@@ -49,15 +49,16 @@ const AdminLoginForm = () => {
         {/* Left side with form */}
         <div className="md:w-1/2 w-full p-10">
           <div className="flex flex-col mb-6">
-            <Button
-              onClick={() => navigate("/")}
-              className="w-fit gap-2 h-9 text-neonGreen bg-darkGreen font-medium flex items-center justify-between"
-            >
-              <span>
-                <ArrowLeft size={16} />
-              </span>
-              Back
-            </Button>
+         
+          
+            <button
+                className="bg-mdDarkGreen w-fit hover:bg-lightGreen text-white text-sm font-normal py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                type="submit"
+                onClick={()=>navigate(-1)}
+              >
+               &larr; Back
+              </button>
+     
           </div>
           <form autoComplete={"off"} className="flex flex-col" onSubmit={handleSubmit}>
             <h2 className="text-2xl font-bold mb-5 text-darkGreen text-center">Admin Login</h2>

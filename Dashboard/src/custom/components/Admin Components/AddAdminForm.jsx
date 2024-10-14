@@ -26,6 +26,7 @@ function AddAdminForm() {
       mono: Number(data.mono), 
       gender 
     });
+    
   };
 
   const togglePasswordVisibility = () => {

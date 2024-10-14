@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import SignupImg from "@/custom/utils/SignupImg";
@@ -25,7 +25,7 @@ function Signup() {
   const [showPassword, setShowPassword] = useState(false); // Password visibility state
 
   const { Signup } = useContext(PatientSignUpContext);
-
+  const navigate = useNavigate()
   const validateAge = (value) => {
     if (value < 1 || value > 120) return "Age must be between 1 and 120.";
     return "";
@@ -104,6 +104,17 @@ function Signup() {
           <h2 className="text-2xl font-bold mb-5 text-center text-darkGreen">
             Signup
           </h2>
+          <NavLink to={()=>navigate(-1)}
+            className="text-mdDarkGreen hover:text-darkGreen mb-5 inline-block"
+          >
+          
+            <button
+                className="bg-mdDarkGreen hover:bg-lightGreen text-white text-sm font-normal py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                type="submit"
+              >
+               &larr; Back
+              </button>
+          </NavLink>
           <form autoComplete={"off"} onSubmit={handleSubmit} className="flex flex-col gap-6 flex-grow">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 flex-grow">
               <div className="flex flex-col">
@@ -224,9 +235,13 @@ function Signup() {
               Sign Up
             </button>
           </form>
-          <Link to="/auth/login" className="block text-center mt-4">
-            <Button variant="outline">Login</Button>
-          </Link>
+            <p className="mt-4 text-center text-darkGreen">
+           
+             
+              <Link to="/auth/login" className="text-blue-500 hover:underline">
+                Login Now
+              </Link>
+            </p>
         </div>
         <div className="hidden md:block w-1/2">
           <SignupImg className="w-full h-full object-cover rounded-tr-lg rounded-br-lg" />

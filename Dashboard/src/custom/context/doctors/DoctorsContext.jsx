@@ -1,66 +1,67 @@
 import axios from "axios";
 import { URL } from "@base";
 import { createContext, useEffect, useState } from "react";
-import {  useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
+
 const DoctorContex = createContext();
 
 const DoctorProvider = ({ children }) => {
   const [doctorData, setDoctorData] = useState([]);
-  const [dctAvailable, setDctAvailable ] = useState([])
+  const [dctAvailable, setDctAvailable] = useState([]);
   const { toast } = useToast();
 
+  // Move fetchDoctor outside of useEffect
+  const fetchDoctor = async () => {
+    console.log("Fetching Doctors");
+
+    await axios
+      .get(`${URL}/api/admin/doctors`)
+      .then((response) => {
+        setDoctorData(response.data);
+      })
+      .catch((err) => {
+        toast({
+          title: "Unknown Error: ",
+          status: "Failed",
+          description: `${err.message}`,
+          duration: 3000,
+          className: "bg-green-100",
+        });
+      })
+      .finally(() => {
+        console.log(doctorData);
+      });
+  };
+
+  const doctorAvailability = async () => {
+    console.log("Fetching Doctor Availability");
+
+    await axios
+      .get(`${URL}/api/admin/getDoctorAvailability`)
+      .then((response) => {
+        setDctAvailable(response.data);
+      })
+      .catch((err) => {
+        toast({
+          title: "Unknown Error: ",
+          status: "Failed",
+          description: `${err.message}`,
+          duration: 3000,
+          className: "bg-green-100",
+        });
+      })
+      .finally(() => {
+        console.log(dctAvailable);
+      });
+  };
 
   useEffect(() => {
-    const fetchDoctor = async () => {
-      console.log("USeEffect Load");
-
-      const data = await axios
-        .get(`${URL}/api/admin/doctors`)
-        .then((response) => {
-          setDoctorData(response.data);
-        })
-        .catch((err) => {
-          toast({
-            title: "Unknown Error : ",
-            status: "Failed",
-            description: `${err.message}`,
-            duration: 3000,
-            className: "bg-green-100",
-          });
-        })
-        .finally(() => {
-          console.log(doctorData);
-        });
-    };
-    const doctorAvailability = async () => {
-      console.log("USeEffect Load");
-
-      const data = await axios
-        .get(`${URL}/api/admin/getDoctorAvailability`)
-        .then((response) => {
-          setDctAvailable(response.data);
-        })
-        .catch((err) => {
-          toast({
-            title: "Unknown Error : ",
-            status: "Failed",
-            description: `${err.message}`,
-            duration: 3000,
-            className: "bg-green-100",
-          });
-        })
-        .finally(() => {
-          console.log(dctAvailable);
-        });
-    };
-    doctorAvailability()
-    fetchDoctor();
+    doctorAvailability();
+    fetchDoctor(); // Now you can call it inside useEffect
   }, []);
 
-
-  
   const addDoctor = async (addDoctorData) => {
-    const data = await axios
+    await axios
       .post(`${URL}/api/admin/addDoctor`, addDoctorData)
       .then((response) => {
         toast({
@@ -69,8 +70,9 @@ const DoctorProvider = ({ children }) => {
           description: `Name: ${addDoctorData.Name} Speciality: ${addDoctorData.Specialist}`,
           status: "Success",
           duration: 3000,
-          className: "bg-white",
+          className: "bg-green-100",
         });
+        fetchDoctor(); // Fetch the latest doctors after adding
       })
       .catch((error) => {
         toast({
@@ -82,23 +84,23 @@ const DoctorProvider = ({ children }) => {
           className: "bg-red-100",
         });
       });
-      fetchDoctor()
   };
-  const updateDoctor = async (data, DID) => {
-    const currDoct = doctorData.find((doctor) => doctor.DID === DID);
 
-    // Normalize keys to lowercase
+  const updateDoctor = async (data, DID) => {
+    console.log("Data to update:", data); // Log the data
+  
+    const currDoct = doctorData.find((doctor) => doctor.DID === DID);
+  
     const normalizeKeys = (obj) => {
       return Object.keys(obj).reduce((acc, key) => {
         acc[key.toLowerCase()] = obj[key];
         return acc;
       }, {});
     };
-
+  
     const normalizedCurrentDoctor = normalizeKeys(currDoct);
     const normalizedData = normalizeKeys(data);
-
-    // Filter out any extra properties from normalizedCurrentDoctor that are not in normalizedData
+  
     const filteredCurrentDoctor = Object.keys(normalizedData).reduce(
       (acc, key) => {
         if (key in normalizedCurrentDoctor) {
@@ -108,11 +110,10 @@ const DoctorProvider = ({ children }) => {
       },
       {}
     );
-
-    // Compare only relevant fields
+  
     const isSame =
       JSON.stringify(filteredCurrentDoctor) === JSON.stringify(normalizedData);
-
+  
     if (isSame) {
       toast({
         title: "No Changes Detected",
@@ -123,24 +124,25 @@ const DoctorProvider = ({ children }) => {
       });
       return;
     }
-    const response = await axios
+  
+    await axios
       .put(`${URL}/api/admin/updateDoctor/${DID}`, data)
       .then((response) => {
         toast({
           title: "Success",
           description: "Doctor Updated Successfully",
+          className: "bg-green-100",
         });
+        fetchDoctor(); // Fetch the latest doctors after updating
       })
       .catch((error) => {
         console.error("Error updating doctor:", error);
       });
-
-      fetchDoctor()
-
   };
+  
 
   const deleteDoctor = async (DID) => {
-    const response = await axios
+    await axios
       .delete(`${URL}/api/admin/deleteDoctor/${DID}`)
       .then((response) => {
         toast({
@@ -149,6 +151,7 @@ const DoctorProvider = ({ children }) => {
           duration: 3000,
           className: "bg-green-100",
         });
+        fetchDoctor(); // Fetch the latest doctors after deletion
       })
       .catch((error) => {
         toast({
@@ -159,11 +162,10 @@ const DoctorProvider = ({ children }) => {
           className: "bg-red-100",
         });
       });
-      fetchDoctor()
   };
 
   return (
-    <DoctorContex.Provider value={{ doctorData,dctAvailable, deleteDoctor, updateDoctor, addDoctor }}>
+    <DoctorContex.Provider value={{ doctorData, dctAvailable, deleteDoctor, updateDoctor, addDoctor }}>
       {children}
     </DoctorContex.Provider>
   );

@@ -12,6 +12,7 @@ import { toast, useToast } from "@/components/ui/use-toast";
 import useAppointmentContext from "@/custom/pages/Hooks/useAppointmentContext";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 function UpdateForm({ appointmentId }) {
   const { register, handleSubmit } = useForm();
@@ -20,7 +21,7 @@ function UpdateForm({ appointmentId }) {
   const [doctorId, setDoctorId] = useState(""); // Add doctorId state
   const { updateAppointments, appointments } = useAppointmentContext();
   const { toast } = useToast();
-
+const navigate = useNavigate()
   // Initialize the state with the appointment data if available
   useEffect(() => {
     const app = appointments.find((data) => data.AID === appointmentId);
@@ -86,6 +87,7 @@ function UpdateForm({ appointmentId }) {
   
     // Proceed with update if validation passes
     updateAppointments({ appointmentId, formData: data });
+    navigate(-1)
   };
   
   return (

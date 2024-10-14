@@ -40,6 +40,7 @@ const AppointmentProvider = ({ children }) => {
       toast({
         title: "Update Appointment Success",
         description: "Updated Info",
+        className: "bg-green-100",
       });
   
       return data;
@@ -60,6 +61,8 @@ const AppointmentProvider = ({ children }) => {
       toast({
         title: "Delete Appointment Success",
         description: "Appointment Deleted",
+        className: "bg-red-100",
+
       });
       fetchAppointments()
     } catch (err) {

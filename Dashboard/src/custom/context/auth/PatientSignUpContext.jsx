@@ -33,6 +33,8 @@ function PatientSignUpProvider({ children }) {
         type: "success",
         title: "Login Successful",
         description: `Welcome ${response.data.Name}`,
+        className: "bg-green-100",
+
       });
     } catch (error) {
       toast({

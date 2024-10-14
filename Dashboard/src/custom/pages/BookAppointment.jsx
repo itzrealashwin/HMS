@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { BookAppointmentContext } from "../context/appointments/BookAppointmentContext";
 import { PatientSignUpContext } from "../context/auth/PatientSignUpContext";
 import Cookies from "js-cookie"; // Import js-cookie
+import { NavLink } from "react-router-dom";
 
 const diseaseMapping = {
   "Heart issue": "Cardiologist",
@@ -36,6 +37,8 @@ function BookAppointment() {
   const { bookAppointment } = useContext(BookAppointmentContext);
   const { patientData } = useContext(PatientSignUpContext);
 
+
+  
   const [formState, setFormState] = useState({
     name: "",
     age: "",
@@ -200,8 +203,15 @@ function BookAppointment() {
           </p>
         </div>
 
-        {/* Appointment Form */}
-        <div className="w-full max-w-4xl bg-white p-6 md:p-8 lg:p-10 rounded-lg shadow-lg">
+
+
+        {patientData.length!=0 ? (
+        <div className="flex justify-center flex-col items-center text-[#103126] font-semibold">
+          {/* Description Card */}
+          {/* ... Description Card content ... */}
+
+         {/* Appointment Form */}
+         <div className="w-full max-w-4xl bg-white p-6 md:p-8 lg:p-10 rounded-lg shadow-lg">
           <h2 className="text-xl md:text-2xl lg:text-3xl text-darkGreen font-bold text-center mb-6">
             Schedule Your Appointment
           </h2>
@@ -219,7 +229,7 @@ function BookAppointment() {
                   Patient Name
                 </label>
                 <input
-                  className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                  className={`shadow appearance-none border rounded text-sm font-normal  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
                     errors.name ? "border-red-500" : ""
                   }`}
                   id="name"
@@ -244,7 +254,7 @@ function BookAppointment() {
                   Age
                 </label>
                 <input
-                  className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                  className={`shadow appearance-none border rounded text-sm font-normal  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
                     errors.age ? "border-red-500" : ""
                   }`}
                   id="age"
@@ -253,6 +263,8 @@ function BookAppointment() {
                   value={formState.age}
                   onChange={handleChange}
                   required
+                  min={1}
+                  max={120}
                 />
                 {errors.age && (
                   <p className="text-red-500 font-normal text-xs mt-2">
@@ -268,7 +280,7 @@ function BookAppointment() {
                   Strength
                 </label>
                 <select
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-sm font-normal  text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="strength"
                   name="strength"
                   value={formState.strength}
@@ -291,7 +303,7 @@ function BookAppointment() {
                   Disease Type
                 </label>
                 <select
-                  className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                  className={`shadow appearance-none border rounded w-full py-2 px-3 text-sm font-normal  text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
                     errors.diseaseType ? "border-red-500" : ""
                   }`}
                   id="diseaseType"
@@ -323,7 +335,7 @@ function BookAppointment() {
                 Description
               </label>
               <textarea
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border text-sm font-normal rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="description"
                 name="description"
                 value={formState.description}
@@ -341,7 +353,7 @@ function BookAppointment() {
                   Slot Preference
                 </label>
                 <select
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border text-sm font-normal  rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="slotPreference"
                   name="slotPreference"
                   value={formState.slotPreference}
@@ -360,7 +372,7 @@ function BookAppointment() {
                   Appointment Date
                 </label>
                 <input
-                  className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                  className={`shadow appearance-none border text-sm font-normal  rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
                     errors.appointmentDate ? "border-red-500" : ""
                   }`}
                   id="appointmentDate"
@@ -387,6 +399,21 @@ function BookAppointment() {
             </div>
           </form>
         </div>
+          {/* ... Appointment form content ... */}
+        </div>
+      ) : (
+        <div className="flex justify-center items-center">
+          <NavLink to="/auth/login">
+          <button
+            className="bg-darkGreen hover:bg-lightGreen text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Login now to book appointment
+          </button>
+          </NavLink>
+        </div>
+      )}
+
+      
       </div>
     </div>
   );
