@@ -88,12 +88,19 @@ const DoctorProvider = ({ children }) => {
 
   const updateDoctor = async (data, DID) => {
     console.log("Data to update:", data); // Log the data
-  
+    
     const currDoct = doctorData.find((doctor) => doctor.DID === DID);
   
+    // Helper function to convert string to sentence case (capitalize first letter)
+    const toSentenceCase = (str) => {
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    };
+  
+    // Normalize the keys by converting them to sentence case
     const normalizeKeys = (obj) => {
       return Object.keys(obj).reduce((acc, key) => {
-        acc[key.toLowerCase()] = obj[key];
+        const sentenceCaseKey = toSentenceCase(key);
+        acc[sentenceCaseKey] = obj[key];
         return acc;
       }, {});
     };
@@ -125,8 +132,14 @@ const DoctorProvider = ({ children }) => {
       return;
     }
   
+    console.log(data);
+  
     await axios
-      .put(`${URL}/api/admin/updateDoctor/${DID}`, data)
+      .put(`${URL}/api/admin/updateDoctor/${DID}`, data, {
+        headers: {
+          "Content-Type": "application/json", // Explicitly set the content type
+        },
+      })
       .then((response) => {
         toast({
           title: "Success",

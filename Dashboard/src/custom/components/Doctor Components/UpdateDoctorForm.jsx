@@ -21,7 +21,7 @@ function UpdateDoctorForm({ specificDoctor, DID }) {
   const [gender, setGender] = useState("Male");
   const [degrees, setDegrees] = useState([]);
   const [degreeInput, setDegreeInput] = useState("");
-  console.log(specificDoctor);
+  console.log(degreeInput);
 
   const { updateDoctor } = useDoctorContext();
   const navigate = useNavigate();

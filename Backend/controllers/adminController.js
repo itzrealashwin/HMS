@@ -501,7 +501,7 @@ const deleteAppointment = asyncHandler(async (req, res) => {
 // @access  Public
 const updateDoctor = asyncHandler(async (req, res) => {
   const { did } = req.params;
-  const { Name, Gender, Age, Mono, Email, Specialist, Degrees } = req.body;
+  const { name, gender, age, mono, email, specialist, degrees } = req.body;
   console.log(did, req.body); // Log to ensure data is reaching
 
   try {
@@ -514,13 +514,13 @@ const updateDoctor = asyncHandler(async (req, res) => {
     }
 
     // Update the fields directly from req.body
-    doctor.Name = Name || doctor.Name;
-    doctor.Gender = Gender || doctor.Gender;
-    doctor.Age = Age || doctor.Age;
-    doctor.Mono = Mono || doctor.Mono;
-    doctor.Email = Email || doctor.Email;
-    doctor.Specialist = Specialist || doctor.Specialist;
-    doctor.Degrees = Degrees || doctor.Degrees;
+    doctor.Name = name || doctor.Name;
+    doctor.Gender = gender || doctor.Gender;
+    doctor.Age = age || doctor.Age;
+    doctor.Mono = mono || doctor.Mono;
+    doctor.Email = email || doctor.Email;
+    doctor.Specialist = specialist || doctor.Specialist;
+    doctor.Degrees = degrees || doctor.Degrees;
 
     // Save the updated doctor
     await doctor.save();
@@ -530,6 +530,42 @@ const updateDoctor = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Failed to update doctor", error: error.message });
   }
 });
+
+
+
+// const updateDoctor = asyncHandler(async (req, res) => {
+//   const { did } = req.params;
+//   const { Name, Gender, Age, Mono, Email, Specialist, Degrees } = req.body;
+//   console.log(did ,Name, Gender, Age, Mono, Email, Specialist, Degrees)
+
+//   try {
+//     const updatedDoctor = await Doctor.findOneAndUpdate(
+//       { DID: did },
+//       {
+//         $set: {
+//           Name,
+//           Gender,
+//           Age,
+//           Mono,
+//           Email,
+//           Specialist,
+//           Degrees
+//         }
+//       },
+//       { new: true, runValidators: true }  // new: true returns the updated document
+//     );
+
+//     if (!updatedDoctor) {
+//       res.status(404);
+//       throw new Error("Doctor not found");
+//     }
+
+//     res.json({ message: "Doctor updated successfully", doctor: updatedDoctor });
+//   } catch (error) {
+//     res.status(500).json({ message: "Failed to update doctor", error: error.message });
+//   }
+// });
+
 
 
 // @desc    Delete a doctor
