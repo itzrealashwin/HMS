@@ -59,10 +59,13 @@ function WACount() {
 
   const handleDateSelect = (selectedDate) => {
     // Convert the selected date to 'YYYY-MM-DD' format
-    const formattedDate = selectedDate.toISOString().substring(0, 10);
+
+    const formattedDate = selectedDate.toLocaleDateString('en-CA'); // Formats as YYYY-MM-DD
     setDate(formattedDate);
+    
     WACountByDate(formattedDate);
     setIsCalendarOpen(false);
+    
   };
 
   return (

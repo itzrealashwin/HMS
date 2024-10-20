@@ -25,7 +25,6 @@ const navigate = useNavigate()
   // Initialize the state with the appointment data if available
   useEffect(() => {
     const app = appointments.find((data) => data.AID === appointmentId);
-    console.log(app);
 
     if (app) {
       setStatus(app.Status || "Waiting");
@@ -87,7 +86,6 @@ const navigate = useNavigate()
   
     // Proceed with update if validation passes
     updateAppointments({ appointmentId, formData: data });
-    navigate(-1)
   };
   
   return (

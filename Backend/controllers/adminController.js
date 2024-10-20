@@ -177,7 +177,7 @@ const updateAppointment = asyncHandler(async (req, res) => {
     appointment.DoctID = doctorId || appointment.DoctID;
 
     await patientHistory.save();
-
+    
     res.json({ message: "Appointment updated successfully" }).status(200);
   } else {
     res.status(404);

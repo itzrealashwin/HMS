@@ -19,7 +19,6 @@ function App() {
       document.documentElement.classList.remove("dark");
     }
   }, [darkMode]);
-  console.log(URL);
 
   return (
     <>

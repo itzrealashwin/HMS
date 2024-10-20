@@ -11,7 +11,6 @@ function UpdateAdminForm({ specificAdmin, AID }) {
   const [gender, setGender] = useState("Male");
 
 
-  console.log(specificAdmin);
   
   const { updateAdmin } = useAdminContext();
 

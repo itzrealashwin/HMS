@@ -24,7 +24,6 @@ import useAppointmentContext from "@/custom/pages/Hooks/useAppointmentContext";
 function ActionButton({ appId }) {
   const { deleteAppointments } = useAppointmentContext();
 
-  // console.log(appId);
 
   function handleDelete() {
     deleteAppointments( appId );

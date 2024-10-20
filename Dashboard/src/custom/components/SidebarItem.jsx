@@ -10,7 +10,6 @@ function SidebarItem() {
       <ul className={`flex justify-center items-center gap-10 flex-col h-full`}>
         {sidebarItems.map((sidebarItem) => {
           const IconComponent = sidebarItem.icon;
-          console.log(sidebarItem.name);
           return (
             <NavLink
               className={({ isActive }) =>

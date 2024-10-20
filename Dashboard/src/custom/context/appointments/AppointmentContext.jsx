@@ -2,6 +2,7 @@ import axios from "axios";
 import { URL } from "@base";
 import React, { createContext, useState, useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -14,11 +15,14 @@ const AppointmentProvider = ({ children }) => {
   const [appointments, setAppointments] = useState([]);
   const [error, setError] = useState(null);
   const [updateApp, setUpdateApp] = useState({appointmentId : null , formData : null });
+ const navigate = useNavigate()
   // Fetch appointments from API
   const fetchAppointments = async () => {
     try {
       const response = await axios.get(`${URL}/api/admin/appointments`);
       setAppointments(response.data); // Correctly set appointments from the response
+      console.log(appointments);
+
     } catch (err) {
       setError(err); // Set the error state in case of an error
       toast({
@@ -30,23 +34,15 @@ const AppointmentProvider = ({ children }) => {
   };
   
   const updateAppointments = async ({ appointmentId, formData }) => {
+
     try {
-        const response = await axios.put(`${URL}/api/admin/appointments/${appointmentId}`, formData, {
+        await axios.put(`${URL}/api/admin/appointments/${appointmentId}`, formData, {
             headers: { "Content-Type": "application/json" },
         });
-
-        const updatedAppointment = response.data;
-
-        // Update the local state immediately
-        setAppointments((prevAppointments) =>
-            prevAppointments.map((appointment) =>
-                appointment.id === appointmentId ? updatedAppointment : appointment
-            )
-        );
-
-        // Optionally, refetch appointments in case of any other updates in the backend
         fetchAppointments(); 
+        navigate(-1)
 
+        
         toast({
             title: "Update Appointment Success",
             description: "Updated Info",
@@ -89,11 +85,6 @@ const AppointmentProvider = ({ children }) => {
     fetchAppointments();
     
   }, []);
-
-
-// useEffect(()=>{
-//   updateAppointments()
-// }, [updateApp])
 
 
   return (

@@ -8,7 +8,6 @@ import { AppointmentProvider } from "@/custom/context/appointments/AppointmentCo
 import useAppointmentContext from "@/custom/pages/Hooks/useAppointmentContext";
 function EditAppointment() {
   const location = useLocation();
-  console.log(location.state);
   const [dataFromRoute, setData] = useState(location.state.appId);
   const navigate = useNavigate();
 

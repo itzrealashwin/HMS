@@ -12,7 +12,6 @@ function EditAdmin() {
   const navigate = useNavigate();
   const location = useLocation();
   const AID = location.state.AID;
-  console.log(AID);
   
 
   const { adminData } = useAdminContext();
