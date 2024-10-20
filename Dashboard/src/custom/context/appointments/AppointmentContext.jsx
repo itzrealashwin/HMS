@@ -31,28 +31,36 @@ const AppointmentProvider = ({ children }) => {
   
   const updateAppointments = async ({ appointmentId, formData }) => {
     try {
-      const response = await axios.put(`${URL}/api/admin/appointments/${appointmentId}`, formData, {
-        headers: { "Content-Type": "application/json" },
-      });
-  
-      const data = response.data;
-  
-      toast({
-        title: "Update Appointment Success",
-        description: "Updated Info",
-        className: "bg-green-100",
-      });
-  
-      return data;
+        const response = await axios.put(`${URL}/api/admin/appointments/${appointmentId}`, formData, {
+            headers: { "Content-Type": "application/json" },
+        });
+
+        const updatedAppointment = response.data;
+
+        // Update the local state immediately
+        setAppointments((prevAppointments) =>
+            prevAppointments.map((appointment) =>
+                appointment.id === appointmentId ? updatedAppointment : appointment
+            )
+        );
+
+        // Optionally, refetch appointments in case of any other updates in the backend
+        fetchAppointments(); 
+
+        toast({
+            title: "Update Appointment Success",
+            description: "Updated Info",
+            className: "bg-green-100",
+        });
+
     } catch (err) {
-      toast({
-        title: "Update Appointment Failed",
-        description: "There was an error in Updating Appointments.",
-      });
-      console.error("Error occurred", err);
+        toast({
+            title: "Update Appointment Failed",
+            description: "There was an error in Updating Appointments.",
+        });
+        console.error("Error occurred", err);
     }
-    fetchAppointments()
-  }
+}
 
   const deleteAppointments = async (appointmentId)=>{
     console.log(appointmentId);
@@ -77,7 +85,6 @@ const AppointmentProvider = ({ children }) => {
   
 
   useEffect(() => {
-    console.log("hello");
 
     fetchAppointments();
     

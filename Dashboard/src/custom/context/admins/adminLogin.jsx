@@ -52,6 +52,7 @@ const AdminLoginProvider = (props) => {
     Cookies.remove("Password");
     setAdminAuth(false); 
     setAdminInfo(null); // Reset state
+    navigate("/auth")
   };
   
   return (
