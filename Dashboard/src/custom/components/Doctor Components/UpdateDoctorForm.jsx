@@ -49,6 +49,10 @@ function UpdateDoctorForm({ specificDoctor, DID }) {
     setDegreeInput(event.target.value);
   };
 
+
+
+  
+
   const handleDegreeKeyDown = (event) => {
     if (event.key === "Enter" && degreeInput.trim() !== "") {
       event.preventDefault();
@@ -57,7 +61,7 @@ function UpdateDoctorForm({ specificDoctor, DID }) {
     }
   };
 
-  const removeDegree = (degreeToRemove) => {
+  const removeDegree = (degreeToRemove) => {  
     setDegrees(degrees.filter((degree) => degree !== degreeToRemove));
   };
 

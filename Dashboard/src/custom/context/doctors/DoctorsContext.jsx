@@ -84,6 +84,9 @@ const DoctorProvider = ({ children }) => {
           className: "bg-red-100",
         });
       });
+
+      fetchDoctor(); // Now you can call it inside useEffect
+
   };
 
   const updateDoctor = async (data, DID) => {
@@ -132,7 +135,6 @@ const DoctorProvider = ({ children }) => {
       return;
     }
   
-    console.log(data);
   
     await axios
       .put(`${URL}/api/admin/updateDoctor/${DID}`, data, {

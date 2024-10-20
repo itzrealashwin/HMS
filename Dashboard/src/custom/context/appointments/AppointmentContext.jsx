@@ -51,6 +51,7 @@ const AppointmentProvider = ({ children }) => {
       });
       console.error("Error occurred", err);
     }
+    fetchAppointments()
   }
 
   const deleteAppointments = async (appointmentId)=>{
